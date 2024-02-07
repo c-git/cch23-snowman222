@@ -8,9 +8,19 @@ pub(crate) fn scope() -> Scope {
         )
 }
 
+#[derive(serde::Deserialize, Debug)]
+struct Reindeer {
+    name: String,
+    strength: u32,
+}
+
 #[tracing::instrument]
-async fn task1_reindeer_cheer() -> String {
-    todo!()
+async fn task1_reindeer_cheer(reindeers: web::Json<Vec<Reindeer>>) -> String {
+    reindeers
+        .iter()
+        .map(|x| x.strength)
+        .sum::<u32>()
+        .to_string()
 }
 
 #[tracing::instrument]
