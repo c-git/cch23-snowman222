@@ -447,6 +447,7 @@ dependencies = [
  "actix-web",
  "anyhow",
  "serde",
+ "serde_json",
  "shuttle-actix-web",
  "shuttle-runtime",
  "tokio",
