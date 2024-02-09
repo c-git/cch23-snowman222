@@ -10,6 +10,7 @@ pub(crate) fn scope() -> Scope {
 struct QueryParams {
     offset: Option<usize>,
     limit: Option<usize>,
+    split: Option<usize>,
 }
 
 async fn handler(query_params: Query<QueryParams>, list: Json<Vec<String>>) -> HttpResponse {
@@ -17,5 +18,13 @@ async fn handler(query_params: Query<QueryParams>, list: Json<Vec<String>>) -> H
     let limit = list
         .len()
         .min(offset + query_params.limit.unwrap_or(list.len()));
-    HttpResponse::Ok().json(&list[offset..limit])
+    if let Some(split) = query_params.split {
+        let mut result = vec![];
+        for chunk in list[offset..limit].chunks(split) {
+            result.push(chunk);
+        }
+        HttpResponse::Ok().json(result)
+    } else {
+        HttpResponse::Ok().json(&list[offset..limit])
+    }
 }
