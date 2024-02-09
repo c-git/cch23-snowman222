@@ -7,6 +7,7 @@ use tracing::error;
 
 mod day01;
 mod day04;
+mod day05;
 mod day_minus_1;
 
 pub fn modify_service_config(cfg: &mut ServiceConfig) {
@@ -14,6 +15,7 @@ pub fn modify_service_config(cfg: &mut ServiceConfig) {
     cfg.service(day_minus_1::scope().wrap(Logger::default()));
     cfg.service(day01::scope().wrap(Logger::default()));
     cfg.service(day04::scope().wrap(Logger::default()));
+    cfg.service(day05::scope().wrap(Logger::default()));
     cfg.default_service(web::route().to(not_found).wrap(Logger::default()));
 }
 
